@@ -6,7 +6,7 @@ package accomdationsystem;
 
 /**
  *
- * @author simla
+ *  
  */
 public class HallInformation {
     private String hallName;
