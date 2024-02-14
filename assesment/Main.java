@@ -8,7 +8,7 @@ import javafx.application.Application;
 
 /**
  *
- * @author miche
+ * @author miche 
  */
 public class Main {
     public static void main(String[] args) {

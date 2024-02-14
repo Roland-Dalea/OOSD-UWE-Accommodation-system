@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Separator?>
@@ -23,28 +24,15 @@
                   <Insets />
                </VBox.margin>
             </Separator>
-            <MenuButton mnemonicParsing="false" text="Hall">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Brecon" />
-                <MenuItem mnemonicParsing="false" text="Cotswold" />
-                  <MenuItem mnemonicParsing="false" text="Mendip" />
-                  <MenuItem mnemonicParsing="false" text="Quantock" />
-              </items>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </MenuButton>
+            <ChoiceBox fx:id="hallChoiceBox" prefWidth="150.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Manager" />
-            <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
+            <TextArea fx:id="managerLabel" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </TextArea>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Telephone Num." />
-            <TextArea editable="false" layoutX="10.0" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true" />
+            <TextArea fx:id="telNum" editable="false" layoutX="10.0" layoutY="53.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true" />
             <Separator prefHeight="23.0" prefWidth="212.0" />
             <Text layoutX="10.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Accommodations">
                <VBox.margin>
@@ -56,7 +44,7 @@
                   <Insets />
                </VBox.margin>
             </Text>
-            <TextArea editable="false" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
+            <TextArea fx:id="accTotal" editable="false" layoutX="10.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></TextArea>
@@ -65,7 +53,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Text>
-            <TextArea editable="false" layoutX="10.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
+            <TextArea fx:id="accAvailable" editable="false" layoutX="10.0" layoutY="183.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></TextArea>
@@ -74,7 +62,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Text>
-            <TextArea editable="false" layoutX="10.0" layoutY="215.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
+            <TextArea fx:id="accOffline" editable="false" layoutX="10.0" layoutY="215.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin></TextArea>
@@ -83,7 +71,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Text>
-            <TextArea editable="false" layoutX="10.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true" />
+            <TextArea fx:id="accReqClean" editable="false" layoutX="10.0" layoutY="246.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="180.0" wrapText="true" />
          </children>
          <BorderPane.margin>
             <Insets left="10.0" top="5.0" />
@@ -94,13 +82,13 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Separator prefHeight="0.0" prefWidth="489.0" />
-            <TableView prefHeight="222.0" prefWidth="373.0">
+            <TableView fx:id="table" prefHeight="222.0" prefWidth="373.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Acco Num" />
-                <TableColumn prefWidth="82.0" text="Type" />
-                  <TableColumn prefWidth="75.0" text="Price" />
-                  <TableColumn prefWidth="83.0" text="Availability" />
-                  <TableColumn prefWidth="83.0" text="Status" />
+                <TableColumn fx:id="accNumT" prefWidth="75.0" text="Acco Num" />
+                <TableColumn fx:id="accTypeT" prefWidth="82.0" text="Type" />
+                  <TableColumn fx:id="accPriceT" prefWidth="75.0" text="Price" />
+                  <TableColumn fx:id="accAvailabilityT" prefWidth="83.0" text="Availability" />
+                  <TableColumn fx:id="accStatusT" prefWidth="83.0" text="Status" />
               </columns>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -122,25 +110,25 @@
                            </VBox.margin>
                         </Text>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Accommodation Number" />
-                        <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="178.0" wrapText="true" />
+                        <TextArea fx:id="AccNum" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="178.0" wrapText="true" />
                         <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
+                        <TextArea fx:id="accType" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
                         <Text layoutX="10.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Price">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea editable="false" layoutX="10.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
+                        <TextArea fx:id="accPrice" editable="false" layoutX="10.0" layoutY="26.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
                         <Text layoutX="10.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Occupancy">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
                         </Text>
-                        <TextArea editable="false" layoutX="10.0" layoutY="102.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
+                        <TextArea fx:id="accAccupancy" editable="false" layoutX="10.0" layoutY="102.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="28.0" prefWidth="180.0" wrapText="true" />
                      </children>
                      <HBox.margin>
                         <Insets bottom="12.0" right="5.0" />
@@ -179,7 +167,7 @@
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="ViewLeaseB" layoutY="18.0" mnemonicParsing="false" onAction="#switchToViewLease" prefHeight="72.0" prefWidth="85.0" text="View Lease" />
-                              <Button layoutX="95.0" layoutY="18.0" mnemonicParsing="false" prefHeight="72.0" prefWidth="85.0" text="Create New" />
+                              <Button fx:id="CreateLeaseB" layoutX="95.0" layoutY="18.0" mnemonicParsing="false" onAction="#switchToCreateLease" prefHeight="72.0" prefWidth="85.0" text="Create New" />
                            </children>
                         </Pane>
                      </children>
