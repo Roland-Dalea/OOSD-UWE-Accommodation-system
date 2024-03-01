@@ -2,12 +2,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package assesment.model;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class AccommodationSystem {
     private Map<String, Hall> halls;
@@ -32,40 +35,39 @@ public class AccommodationSystem {
 
     private List<Room> createRoomsForHall(String hallName) {
         List<Room> rooms = new ArrayList<>();
-        // Add room details for the hall
-        switch (hallName) {
-            case "Brecon":
-                rooms.add(new Room("1", "Regular", "600", "Occupied", "Clean"));
-                rooms.add(new Room("2", "Regular", "570", "Available", "Dirty"));
-                rooms.add(new Room("3", "Suprime", "700", "Occupied", "Clean"));
-                rooms.add(new Room("4", "Regular", "650", "Available", "Dirty"));
+        Random random = new Random();
+        int numRooms = 10; // Number of rooms to generate for each hall
 
-                // Add more rooms for Brecon
-                break;
-            case "Cotswold":
-                rooms.add(new Room("1", "Supreme", "730", "Available", "Clean"));
-                rooms.add(new Room("2", "Regular", "640", "Occupied", "Offline"));
-                rooms.add(new Room("3", "Regular", "560", "Occupied", "Clean"));
-                rooms.add(new Room("4", "Regular", "630", "Available", "Dirty"));
-                // Add more rooms for Cotswold
-                break;
-            case "Mendip":
-                rooms.add(new Room("1", "Regular", "600", "Occupied", "Clean"));
-                rooms.add(new Room("2", "Regular", "650", "Available", "Dirty"));
-                rooms.add(new Room("3", "Regular", "600", "Occupied", "Clean"));
-                rooms.add(new Room("4", "Regular", "640", "Available", "Dirty"));
-                // Add more rooms for Brecon
-                break;
-            case "Quantock":
-                rooms.add(new Room("1", "Supreme", "730", "Available", "Clean"));
-                rooms.add(new Room("2", "Regular", "740", "Occupied", "Offline"));
-                rooms.add(new Room("3", "Regular", "700", "Occupied", "Clean"));
-                rooms.add(new Room("4", "Regular", "750", "Available", "Dirty"));
-                rooms.add(new Room("4", "Regular", "750", "Available", "Offline"));
-                // Add more rooms for Cotswold
-                break;
+        // Generate random room details for the hall
+        for (int i = 1; i <= numRooms; i++) {
+            String roomId = String.valueOf(i);
+            String roomType = getRandomRoomType();
+            String roomPrice = String.valueOf(500 + random.nextInt(300)); // Random price between 500 and 800
+            String roomStatus = getRandomRoomStatus();
+            String cleanliness = getRandomCleanliness();
+
+            rooms.add(new Room(roomId, roomType, roomPrice, roomStatus, cleanliness));
         }
+
         return rooms;
+    }
+
+    // Generate random room type
+    private String getRandomRoomType() {
+        String[] roomTypes = {"Regular", "Superior"};
+        return roomTypes[new Random().nextInt(roomTypes.length)];
+    }
+
+    // Generate random room status
+    private String getRandomRoomStatus() {
+        String[] roomStatuses = {"Available", "Unavailable"};
+        return roomStatuses[new Random().nextInt(roomStatuses.length)];
+    }
+
+    // Generate random cleanliness status
+    private String getRandomCleanliness() {
+        String[] cleanlinessStatuses = {"Clean", "Dirty", "Offline"};
+        return cleanlinessStatuses[new Random().nextInt(cleanlinessStatuses.length)];
     }
 
     public Hall getHall(String hallName) {
@@ -76,3 +78,4 @@ public class AccommodationSystem {
         return new ArrayList<>(halls.keySet());
     }
 }
+
