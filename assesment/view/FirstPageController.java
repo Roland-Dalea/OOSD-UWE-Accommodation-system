@@ -1,9 +1,4 @@
-package assesment.view;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+ package assesment.view;
 
 import assesment.model.Hall;
 import assesment.model.Room;
@@ -18,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.util.ArrayList;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +20,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 
 public class FirstPageController implements Initializable {
 
@@ -80,10 +73,27 @@ public class FirstPageController implements Initializable {
 
     @FXML
     private TextArea accOccupancy;
+    
+    @FXML
+    private TextArea LeaseNumberTextArea;
+
+    @FXML
+    private TextArea FirstNameTextArea;
+
+    @FXML
+    private TextArea SecondNameTextArea;
+
+    @FXML
+    private TextArea StudentNumberTextArea;
+
+    @FXML
+    private TextArea PhoneNumberTextArea;
 
     private ObservableList<Room> data;
 
     private AccommodationSystem accommodationSystem;
+
+    private CreateLeaseController CreateLeaseController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -106,7 +116,6 @@ public class FirstPageController implements Initializable {
         accPriceT.setCellValueFactory(data -> data.getValue().roomPriceProperty());
         accAvailabilityT.setCellValueFactory(data -> data.getValue().roomAvailabilityProperty());
         accStatusT.setCellValueFactory(data -> data.getValue().roomStatusProperty());
- 
 
         // Initialize data list for table
         data = FXCollections.observableArrayList();
@@ -139,15 +148,13 @@ public class FirstPageController implements Initializable {
             int availableCount = (int) hall.getRooms().stream().filter(room -> room.getRoomAvailability().equals("Available") && !room.getRoomStatus().equals("Offline")).count();
             int offlineCount = (int) hall.getRooms().stream().filter(room -> room.getRoomAvailability().equals("Offline") || room.getRoomStatus().equals("Offline")).count();
             int reqCleanCount = (int) hall.getRooms().stream().filter(room -> room.getRoomStatus().equals("Dirty") || room.getRoomStatus().equals("Offline")).count();
-           
 
             // Update text areas with counts
             accTotal.setText(Integer.toString(totalRooms)); // Total rooms
             accAvailable.setText(Integer.toString(availableCount)); // Available rooms
             accOffline.setText(Integer.toString(offlineCount)); // Offline rooms
             accReqClean.setText(Integer.toString(reqCleanCount)); // Rooms requiring cleaning
-            
-     
+
         } else {
             // If selected hall details are not found, display "Unknown"
             managerLabel.setText("Unknown");
@@ -184,9 +191,27 @@ public class FirstPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateLease.fxml"));
         Parent root = loader.load();
 
+        // Get the controller of the CreateLease window
+        CreateLeaseController = loader.getController();
+
+        // Pass the FirstPageController to the CreateLeaseController
+       // CreateLeaseController.setFirstPageController(this);
+
         Stage newStage = new Stage();
         newStage.setScene(new Scene(root));
         newStage.setTitle("Create New Lease");
         newStage.show();
+    }
+
+    // Method to update UI with the created lease information
+    public void updateLeaseInfo(String firstName, String lastName, String studentNumber, String phoneNumber, String leaseNumber) {
+        // Update UI with the created lease information
+        // For example, you can set text fields or labels with the passed information
+        // Assuming you have corresponding text fields or labels in your FXML file
+        LeaseNumberTextArea.setText(leaseNumber);
+        FirstNameTextArea.setText(firstName);
+        SecondNameTextArea.setText(lastName);
+        StudentNumberTextArea.setText(studentNumber);
+        PhoneNumberTextArea.setText(phoneNumber);
     }
 }
