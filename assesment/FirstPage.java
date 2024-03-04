@@ -1,4 +1,8 @@
- package assesment;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
+ */
+package assesment;
 
 import java.io.IOException;
 import javafx.application.Application;
@@ -7,23 +11,24 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ *
+ * @author miche
+ */
 public class FirstPage extends Application {
    
-    @Override
-    public void start(Stage stage) {
-        try {
-            // Adjusted resource path to reflect the package structure
-            Parent root = FXMLLoader.load(getClass().getResource("/assesment/view/FirstPage.fxml"));
-
-             Scene firstPageScene = new Scene(root);
-            stage.setScene(firstPageScene);
-            stage.show();
-        } catch(IOException e) {
-            e.printStackTrace(); // Print the stack trace for debugging purposes
-        }
+@Override
+public void start(Stage stage){
+    try{
+        Parent root = FXMLLoader.load(getClass().getResource("view/FirstPage.fxml"));
+        Scene FirstPage = new Scene(root);
+        stage.setScene(FirstPage);
+        stage.show();
+    
+    }catch(IOException e){
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+    
+}
+
 }
