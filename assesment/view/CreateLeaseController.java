@@ -1,35 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
-package assesment.view;
+  package assesment.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import assesment.model.Room;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
- 
-import javafx.scene.control.Button;
- 
-import javafx.stage.Stage;
 
- 
- 
-
-  
+import java.util.Random;
 
 public class CreateLeaseController {
 
     @FXML
-    private TextField txtLeaseNumber;
-
-    @FXML
-    private TextField txtFirstName;
-
-    @FXML
-    private TextField txtSecondName;
+    private TextField txtFullName;
 
     @FXML
     private TextField txtStudentNumber;
@@ -38,27 +20,85 @@ public class CreateLeaseController {
     private TextField txtPhoneNumber;
 
     @FXML
-    private Button btCreateNew;
+    private TextField txtLeaseNumber;
 
     private FirstPageController firstPageController;
 
     public void setFirstPageController(FirstPageController firstPageController) {
         this.firstPageController = firstPageController;
     }
-
+       
     @FXML
-    void createNewLease() {
-        String leaseNumber = txtLeaseNumber.getText();
-        String firstName = txtFirstName.getText();
-        String lastName = txtSecondName.getText();
-        String studentNumber = txtStudentNumber.getText();
-        String phoneNumber = txtPhoneNumber.getText();
-        
-        // Update lease information in FirstPageController
-        firstPageController.updateLeaseInfo(firstName, lastName, studentNumber, phoneNumber, leaseNumber);
-        
-        // Close the CreateLease window
-        Stage stage = (Stage) btCreateNew.getScene().getWindow();
-        stage.close();
+    private void initialize() {
+        // Generate a unique lease number when the controller is initialized
+        generateUniqueLeaseNumber();
     }
+
+    private void generateUniqueLeaseNumber() {
+        // Generate a random lease number between 1000 and 9999
+        Random random = new Random();
+        int leaseNumber = random.nextInt(9000) + 1000; // Range: [1000, 9999]
+
+        // Set the lease number in the text field
+        txtLeaseNumber.setText(String.valueOf(leaseNumber));
+    }
+    @FXML
+    private void createLease(ActionEvent event) {
+        Room selectedRoom = firstPageController.getSelectedRoom();
+        if (selectedRoom != null) {
+            switch (selectedRoom.getRoomAvailability()) {
+                case "Available":
+                    // Check if the room is clean
+                    if (selectedRoom.getRoomStatus().equals("Clean")) {
+                        
+                        // Change room availability to Occupied
+                        selectedRoom.setRoomAvailability("Occupied");
+
+                        // Show success message
+                        // Show success message
+                    showSuccessMessage("Rental agreement created successfully.");
+
+
+                        // Proceed with creating the lease
+                        firstPageController.updateLeaseInfo(
+                                txtFullName.getText(),
+                                txtStudentNumber.getText(),
+                                txtPhoneNumber.getText(),
+                                txtLeaseNumber.getText());
+                    } else {
+                        // Display an error message if the room is not clean
+                        showAlert("Accommodation is not in a Clean state and cannot be rented.");
+                    }
+                    break;
+                case "Occupied":
+                    // Display an error message if the room is already occupied
+                    showAlert("Accommodation is already occupied and cannot be rented.");
+                    break;
+                case "Offline":
+                case "Dirty":
+                    // Display an error message if the room is offline or dirty
+                    showAlert("Accommodation is not available for rent.");
+                    break;
+            }
+        } else {
+            // Display an error message if no room is selected
+            showAlert("No room selected.");
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+        
+    }
+private void showSuccessMessage(String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Success");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+}
 }
