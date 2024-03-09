@@ -1,4 +1,8 @@
-  package assesment.view;
+  /*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package assesment.view;
 
 import assesment.model.Room;
 import javafx.event.ActionEvent;
@@ -42,49 +46,59 @@ public class CreateLeaseController {
         // Set the lease number in the text field
         txtLeaseNumber.setText(String.valueOf(leaseNumber));
     }
-    @FXML
-    private void createLease(ActionEvent event) {
-        Room selectedRoom = firstPageController.getSelectedRoom();
-        if (selectedRoom != null) {
-            switch (selectedRoom.getRoomAvailability()) {
-                case "Available":
-                    // Check if the room is clean
-                    if (selectedRoom.getRoomStatus().equals("Clean")) {
-                        
-                        // Change room availability to Occupied
-                        selectedRoom.setRoomAvailability("Occupied");
+@FXML
+private void createLease(ActionEvent event) {
+    Room selectedRoom = firstPageController.getSelectedRoom();
+    if (selectedRoom != null) {
+        // Check if any of the text fields are empty
+        if (txtFullName.getText().isEmpty() || 
+            txtStudentNumber.getText().isEmpty() || 
+            txtPhoneNumber.getText().isEmpty() || 
+            txtLeaseNumber.getText().isEmpty()) {
+            // Display an error message if any field is empty
+            showAlert("Please fill in all fields.");
+            return; // Exit the method to prevent further processing
+        }
+        
+        switch (selectedRoom.getRoomAvailability()) {
+            case "Available":
+                // Check if the room is clean
+                if (selectedRoom.getRoomStatus().equals("Clean")) {
+                    // Change room availability to Unavailable
+                    selectedRoom.setRoomAvailability("Unavailable");
 
-                        // Show success message
-                        // Show success message
+                    // Show success message
                     showSuccessMessage("Rental agreement created successfully.");
 
-
-                        // Proceed with creating the lease
-                        firstPageController.updateLeaseInfo(
-                                txtFullName.getText(),
-                                txtStudentNumber.getText(),
-                                txtPhoneNumber.getText(),
-                                txtLeaseNumber.getText());
-                    } else {
-                        // Display an error message if the room is not clean
-                        showAlert("Accommodation is not in a Clean state and cannot be rented.");
-                    }
-                    break;
-                case "Occupied":
-                    // Display an error message if the room is already occupied
-                    showAlert("Accommodation is already occupied and cannot be rented.");
-                    break;
-                case "Offline":
-                case "Dirty":
-                    // Display an error message if the room is offline or dirty
-                    showAlert("Accommodation is not available for rent.");
-                    break;
-            }
-        } else {
-            // Display an error message if no room is selected
-            showAlert("No room selected.");
+                    // Proceed with creating the lease
+                    firstPageController.updateLeaseInfo(
+                            txtFullName.getText(),
+                            txtStudentNumber.getText(),
+                            txtPhoneNumber.getText(),
+                            txtLeaseNumber.getText());
+                } else {
+                    // Display an error message if the room is not clean
+                    showAlert("Accommodation is not clean and cannot be rented.");
+                }
+                break;
+            case "Unavailable":
+                if (selectedRoom.getRoomStatus().equals("Offline")) {
+                    // Display an error message if the room is unavailable and offline
+                    showAlert("Accommodation is offline and cannot be rented.");
+                } else if (selectedRoom.getRoomStatus().equals("Dirty")) {
+                    // Display an error message if the room is unavailable and dirty
+                    showAlert("Accommodation is dirty and cannot be rented.");
+                } else {
+                    // Display a generic error message if the room is unavailable for other reasons
+                    showAlert("Accommodation is unavailable and cannot be rented.");
+                }
+                break;
         }
+    } else {
+        // Display an error message if no room is selected
+        showAlert("No room selected.");
     }
+}
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
