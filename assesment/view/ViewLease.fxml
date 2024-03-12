@@ -9,9 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 
-
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assesment.view.ViewLeaseController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="assesment.view.ViewLeaseController">
     <top>
         <StackPane prefHeight="38.0" prefWidth="350.0" BorderPane.alignment="CENTER">
             <children>
@@ -38,8 +36,8 @@
                 <Text layoutX="36.0" layoutY="219.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phone Number" />
                 <Separator layoutX="2.0" layoutY="-2.0" prefHeight="0.0" prefWidth="350.0" />
                 <Separator layoutX="2.0" layoutY="269.0" prefHeight="0.0" prefWidth="350.0" />
-                <Button layoutX="223.0" layoutY="283.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="66.0" text="Delete" />
-                <Button layoutX="49.0" layoutY="284.0" mnemonicParsing="false" text="Create New" />
+                <Button fx:id="deleteButton" layoutX="223.0" layoutY="283.0" mnemonicParsing="false" onAction="#deleteLease" prefHeight="28.0" prefWidth="66.0" text="Delete" />
+                <Button fx:id="closeButton" layoutX="65.0" layoutY="283.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="71.0" text="Close" onAction="#closeWindow"/>
             </children>
         </AnchorPane>
     </center>

@@ -13,5 +13,3 @@ package assesment.model;
     Dirty,
     Offline
 }
-
-

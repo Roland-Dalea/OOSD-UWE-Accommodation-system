@@ -1,49 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package assesment.model;
+ package assesment.model;
 
-/**
- *
- * @author simla
- */
-  public class RentalAgreement {
-    private int leaseNum;
-    private Student student;
+public class RentalAgreement {
+    private int leaseNumber;
+    private String firstName;
+    private String lastName;
+    private String studentNumber;
+    private int phoneNumber;
 
     // Constructor
-    public RentalAgreement(int leaseNum, Student student) {
-        this.leaseNum = leaseNum;
-        this.student = student;
+    public RentalAgreement(int leaseNumber, String firstName, String lastName, String studentNumber, int phoneNumber) {
+        this.leaseNumber = leaseNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.studentNumber = studentNumber;
+        this.phoneNumber = phoneNumber;
     }
 
-    // Getter for lease number
-    public int getLeaseNum() {
-        return leaseNum;
+    // Getters and setters
+    public int getLeaseNumber() {
+        return leaseNumber;
     }
 
-    // Getter for student
-    public Student getStudent() {
-        return student;
-    }
-    // Getter for student ID
-    public int getStudentID() {
-        return student.getStudentID();
+    public void setLeaseNumber(int leaseNum) {
+        this.leaseNumber = leaseNum;
     }
 
-    // Getter for student name
-    public String getStudentName() {
-        return student.getStudentName();
+    public String getFirstName() {
+        return firstName;
     }
 
-    // Getter for student phone number
-    public int getStudentPhoneNum() {
-        return student.getStudentPhoneNum();
+    public void setFirstName(String fullName) {
+        this.firstName = fullName;
+    }
+   
+    public String getLastName() {
+        return lastName;
     }
 
-    // Getter for student email
-    public String getStudentEmail() {
-        return student.getStudentEmail();
+    public void setLastName(String fullName) {
+        this.lastName = fullName;
+    }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

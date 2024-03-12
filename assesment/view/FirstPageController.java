@@ -30,9 +30,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 
-
 public class FirstPageController implements Initializable {
-    
 
     @FXML
     private ChoiceBox<String> hallChoiceBox;
@@ -85,13 +83,13 @@ public class FirstPageController implements Initializable {
     @FXML
     private TextArea accOccupancy;
 
-    private ObservableList<Room> data;
-
-    private AccommodationSystem accommodationSystem;
-    
     @FXML
     private ChoiceBox<String> CleanButton;
-    
+
+    private ObservableList<Room> data;
+    private AccommodationSystem accommodationSystem;
+    private CreateLeaseController createLeaseController;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         accommodationSystem = new AccommodationSystem();
@@ -276,10 +274,16 @@ public class FirstPageController implements Initializable {
             accType.setText(selectedRoom.getRoomDescription());
             accPrice.setText(selectedRoom.getRoomPrice());
             accOccupancy.setText(selectedRoom.getRoomAvailability());
-        }
+            }
+    }
+    //veena
+    //Retrieves the selected room from the table.
+    public Room getSelectedRoom() {
+        return table.getSelectionModel().getSelectedItem();
     }
 
     // when row (room) selected and ViewLease Button clicked, View Lease Information
+ 
 @FXML
 void switchToViewLease(ActionEvent event) {
     Room selectedRoom = table.getSelectionModel().getSelectedItem();
@@ -294,7 +298,7 @@ void switchToViewLease(ActionEvent event) {
             if (controller != null) {
                 // Pass the lease information to the controller
                 controller.setLease(selectedRoom.getLease());
-
+                controller.setRoom(selectedRoom);
                 // Create a new stage to display the ViewLease.fxml
                 Stage newStage = new Stage();
                 newStage.setScene(new Scene(root));
@@ -312,11 +316,19 @@ void switchToViewLease(ActionEvent event) {
     }
 }
 
+//veena
 // when Create New button clicked, open Create Lease window
     @FXML
-    public void switchToCreateLease(ActionEvent event) throws IOException {
+       public void switchToCreateLease(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateLease.fxml"));
         Parent root = loader.load();
+
+        //veena
+        // Get the controller of the CreateLease window
+        createLeaseController = loader.getController();
+
+        // Pass the FirstPageController to the CreateLeaseController
+        createLeaseController.setFirstPageController(this);
 
         Stage newStage = new Stage();
         newStage.setScene(new Scene(root));
@@ -324,9 +336,18 @@ void switchToViewLease(ActionEvent event) {
         newStage.show();
     }
 
+
    
-    public void updateLeaseInfo(String firstName, String lastName, String studentNumber, String phoneNumber, String leaseNumber) {
-        // Implement logic to update lease information in FirstPage
+       //veena
+
+    // Method to update UI with the created lease information
+   public void updateLeaseInfo(String firstName, String lastName, String studentNumber, String phoneNumber, String leaseNumber) {
+    // Updating UI with the created lease information 
+    Lease lease = new Lease(leaseNumber, firstName, lastName, studentNumber, phoneNumber);
+    Room selectedRoom = getSelectedRoom();
+    if (selectedRoom != null) {
+        selectedRoom.setLease(lease);
     }
     
 }
+    }

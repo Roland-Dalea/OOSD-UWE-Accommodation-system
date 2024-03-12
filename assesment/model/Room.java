@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -86,12 +86,18 @@ public class Room {
         this.lease = lease;
     }
 
-    void setRoomAvailability(String roomAvailability) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   public void setRoomAvailability(String roomAvailability) {
+        this.roomAvailability.set(roomAvailability);
     }
 
+     
     public void setRoomStatus(String roomStatus) {
     this.roomStatus.set(roomStatus);
+    }
+    
+    public void deleteLease(){
+            this.lease = null;
+            }
 }
 
-}
+
