@@ -82,6 +82,9 @@ public class FirstPageController implements Initializable {
 
     @FXML
     private TextArea accOccupancy;
+    
+    @FXML
+    private TextArea accContents;
 
     @FXML
     private ChoiceBox<String> CleanButton;
@@ -137,37 +140,47 @@ public class FirstPageController implements Initializable {
     }
     
     // Method to update the cleaning status of the selected room in the table
-    @FXML
+   @FXML
     void updateCleaningStatus(ActionEvent event) {
         Room selectedRoom = table.getSelectionModel().getSelectedItem();
         if (selectedRoom != null) {
             String newCleaningStatus = CleanButton.getValue(); // Get the selected cleaning status
             String oldCleaningStatus = selectedRoom.getRoomStatus(); // Get the old cleaning status
 
+            // Check if the transition from offline to clean is attempted
+            if (oldCleaningStatus.equals("Offline") && newCleaningStatus.equals("Clean")) {
+                showAlert("You can't directly change the status from Offline to clean. It should be set to dirty first.");
+                CleanButton.setValue("Offline");
+                return;
+            }
+
             // Update the cleaning status of the selected room
             selectedRoom.setRoomStatus(newCleaningStatus);
+            // Update the availability based on cleaning status
+            if (newCleaningStatus.equals("Offline")) {
+                selectedRoom.setRoomAvailability("Unavailable");
+            } else if (newCleaningStatus.equals("Clean")) {
+                selectedRoom.setRoomAvailability("Available");
+            }
+
             table.refresh(); // Refresh the table to reflect the changes
 
             // Handle updating available, offline, and dirty room counts
-            if (oldCleaningStatus.equals("Clean")) {
-                decrementAvailableCount();
-            } else if (oldCleaningStatus.equals("Offline")) {
-                decrementOfflineCount();
-            } else if (oldCleaningStatus.equals("Dirty")) {
-                decrementDirtyCount();
-            }
-
-            if (newCleaningStatus.equals("Clean")) {
-                incrementAvailableCount();
-            } else if (newCleaningStatus.equals("Offline")) {
-                incrementOfflineCount();
-            } else if (newCleaningStatus.equals("Dirty")) {
-                incrementDirtyCount();
-            }
-
-            // Update UI to display the new counts
-            updateRoomCountsUI();
+            updateRoomCounts();
         }
+    }
+
+    private void showAlert(String message) {
+        // Create an Alert dialog of type ERROR
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        // Set the title of the dialog
+        alert.setTitle("Error");
+        // Set the header text (null for no header)
+        alert.setHeaderText(null);
+        // Set the content text (the actual error message)
+        alert.setContentText(message);
+        // Display the dialog and wait for user interaction
+        alert.showAndWait();
     }
 
     private void incrementAvailableCount() {
@@ -226,7 +239,7 @@ public class FirstPageController implements Initializable {
         hallChoiceBox.getItems().addAll(accommodationSystem.getHallNames());
     }
 
-    // Update hall details when a hall is selected
+    /// Update hall details when a hall is selected
     public void updateHall(ActionEvent event) {
         String selectedHall = hallChoiceBox.getValue();
         Hall hall = accommodationSystem.getHall(selectedHall);
@@ -239,7 +252,7 @@ public class FirstPageController implements Initializable {
             data.clear();
             // Add rooms to data list
             data.addAll(hall.getRooms());
-            
+
             // Status logics
 
             // Calculate counts based on data
@@ -254,7 +267,8 @@ public class FirstPageController implements Initializable {
             accOffline.setText(Integer.toString(offlineCount)); // Offline rooms
             accReqClean.setText(Integer.toString(reqCleanCount)); // Rooms requiring cleaning
 
-            
+            // Update room availability in the table
+            updateRoomAvailability();
         } else {
             // If selected hall details are not found, display "Unknown"
             managerLabel.setText("Unknown");
@@ -265,6 +279,17 @@ public class FirstPageController implements Initializable {
             accReqClean.setText("Unknown");
         }
     }
+
+    // Update room availability in the table
+    private void updateRoomAvailability() {
+        for (Room room : data) {
+            String availability = room.getDisplayAvailability();
+            room.setRoomAvailability(availability);
+        }
+        table.refresh();
+    }
+
+    
    // when clicked on the row in the table (specific room) display the accommodation information
     @FXML
     void GetItems(MouseEvent event) {
@@ -274,6 +299,7 @@ public class FirstPageController implements Initializable {
             accType.setText(selectedRoom.getRoomDescription());
             accPrice.setText(selectedRoom.getRoomPrice());
             accOccupancy.setText(selectedRoom.getRoomAvailability());
+            accContents.setText(selectedRoom.getRoomContents());
             }
     }
     //veena
@@ -319,7 +345,7 @@ void switchToViewLease(ActionEvent event) {
 //veena
 // when Create New button clicked, open Create Lease window
     @FXML
-       public void switchToCreateLease(ActionEvent event) throws IOException {
+    public void switchToCreateLease(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateLease.fxml"));
         Parent root = loader.load();
 
@@ -334,10 +360,24 @@ void switchToViewLease(ActionEvent event) {
         newStage.setScene(new Scene(root));
         newStage.setTitle("Create New Lease");
         newStage.show();
+        
+        //update room counts
     }
 
 
-   
+    public void updateRoomCounts() {
+        int totalRooms = data.size(); // Total rooms count
+        int availableCount = (int) data.stream().filter(room -> room.getRoomAvailability().equals("Available")).count(); // Available rooms count
+        int offlineCount = (int) data.stream().filter(room -> room.getRoomAvailability().equals("Unavailable") && room.getRoomStatus().equals("Offline")).count(); // Offline rooms count
+        int reqCleanCount = (int) data.stream().filter(room -> room.getRoomStatus().equals("Dirty")).count(); // Rooms requiring cleaning count
+
+        // Update text areas with counts
+        accTotal.setText(Integer.toString(totalRooms)); // Total rooms
+        accAvailable.setText(Integer.toString(availableCount)); // Available rooms
+        accOffline.setText(Integer.toString(offlineCount)); // Offline rooms
+        accReqClean.setText(Integer.toString(reqCleanCount)); // Rooms requiring cleaning
+    }
+    
        //veena
 
     // Method to update UI with the created lease information

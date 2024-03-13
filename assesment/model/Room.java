@@ -71,11 +71,13 @@ public class Room {
 
 
     public String getDisplayAvailability() {
-        if (roomStatus.get().equals("Offline")) {
-            return "Unavailable";
-        } else {
-            return roomAvailability.get();
+        String currentStatus = roomStatus.get();
+        if (currentStatus.equals("Offline")) {
+            if (lease == null) {
+                return "Unavailable";
+            }
         }
+        return roomAvailability.get();
     }
     
         public Lease getLease() {
@@ -98,6 +100,15 @@ public class Room {
     public void deleteLease(){
             this.lease = null;
             }
-}
 
+    public String getRoomContents() {
+        if (roomDescription.get().equals("Regular")) {
+            return "single bed, wardrobe, desk, chair, bookshelves, bedside cabinet, mirror and en-suite wet room";
+        } else if (roomDescription.get().equals("Superior")) {
+            return "single bed, wardrobe, large desk, chair, bookshelves, bedside cabinet, mirror and large en-suite wet room";
+        } else {
+            return "Unknown room type";
+        }
+    }
+}
 

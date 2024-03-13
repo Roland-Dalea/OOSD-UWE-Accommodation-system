@@ -9,7 +9,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
@@ -141,7 +140,7 @@
                            </VBox.margin>
                         </Text>
                         <ChoiceBox fx:id="CleanButton" prefWidth="150.0" />
-                        <TextArea prefHeight="53.0" prefWidth="190.0">
+                        <TextArea fx:id="accContents" prefHeight="53.0" prefWidth="190.0">
                            <VBox.margin>
                               <Insets top="10.0" />
                            </VBox.margin>

@@ -63,38 +63,38 @@ public class AccommodationSystem {
 private List<Room> createRoomsForHall(String hallName) {
     List<Room> rooms = new ArrayList<>();
     Random random = new Random();
-    int numRooms = 10; // Number of rooms to generate for each hall
+    int numStandardRooms = 30; // Number of standard rooms to generate for each hall
+    int numSuperiorRooms = 10; // Number of superior rooms to generate for each hall
+    int roomNumberCounter = 1; // Counter for room numbers
 
-    // Generate random room details for the hall
-    for (int i = 1; i <= numRooms; i++) {
-        String roomId = String.valueOf(i);
-        String roomType = getRandomRoomType();
-        String roomPrice = String.valueOf(500 + random.nextInt(300)); // Random price between 500 and 800
-        String cleanliness = getRandomCleanliness();
-        String roomStatus = getRandomRoomStatus(cleanliness); // Pass cleanliness status
+    // Generate regular room details for the hall
+    for (int i = 0; i < numStandardRooms; i++) {
+        String roomId = String.valueOf(roomNumberCounter++);
+        String roomType = "Regular";
+        String roomPrice = "700"; // Regular price
+        String cleanliness = "Clean";
+        String roomStatus = getRoomStatus(cleanliness); // Pass cleanliness status
 
         rooms.add(new Room(roomId, roomType, roomPrice, roomStatus, cleanliness));
     }
+    
+    // Generate superior room details for the hall
+    for (int i = 0; i < numSuperiorRooms; i++) {
+        String roomId = String.valueOf(roomNumberCounter++);
+        String roomType = "Superior";
+        String roomPrice = "750"; // superior price
+        String cleanliness = "Clean";
+        String roomStatus = getRoomStatus(cleanliness); // Pass cleanliness status
 
-    // Generate a random lease for each room and associate it
-    for (Room room : rooms) {
-        Lease lease = generateRandomLease();
-        room.setLease(lease);
+        rooms.add(new Room(roomId, roomType, roomPrice, roomStatus, cleanliness));
     }
 
     return rooms;
 }
 
-    
-
-    // Generate random room type
-    private String getRandomRoomType() {
-        String[] roomTypes = {"Regular", "Superior"};
-        return roomTypes[new Random().nextInt(roomTypes.length)];
-    }
 
     // Generate random room status
-    private String getRandomRoomStatus(String cleanliness) {
+    private String getRoomStatus(String cleanliness) {
       if (cleanliness.equals("Clean")) {
         return "Available";
     } else {
@@ -103,12 +103,6 @@ private List<Room> createRoomsForHall(String hallName) {
     }
 }
 
-    // Generate random cleanliness status
-    private String getRandomCleanliness() {
-        String[] cleanlinessStatuses = {"Clean", "Dirty", "Offline"};
-        return cleanlinessStatuses[new Random().nextInt(cleanlinessStatuses.length)];
-    }
-
     public Hall getHall(String hallName) {
         return halls.get(hallName);
     }
@@ -116,33 +110,5 @@ private List<Room> createRoomsForHall(String hallName) {
     public List<String> getHallNames() {
         return new ArrayList<>(halls.keySet());
     }
-
-    //dummy data for lease (TO BE DELETED)
-    private Lease generateRandomLease() {
-        // Generate random lease details
-        String leaseNumber = "L" + UUID.randomUUID().toString().substring(0, 6); // Random lease number
-        String firstName = getRandomFirstName();
-        String lastName = getRandomLastName();
-        String studentNumber = "S" + String.format("%06d", new Random().nextInt(1000000)); // Random student number
-        String phoneNumber = getRandomPhoneNumber(); // Random phone number
-
-    return new Lease(leaseNumber, firstName, lastName, studentNumber, phoneNumber);
-}
-
-    private String getRandomFirstName() {
-        String[] firstNames = {"John", "Jane", "Michael", "Emily", "David", "Sarah", "James", "Emma", "William", "Olivia"};
-        
-    return firstNames[new Random().nextInt(firstNames.length)];
-}
-
-    private String getRandomLastName() {
-        String[] lastNames = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Martinez", "Lopez"};
-    return lastNames[new Random().nextInt(lastNames.length)];
-}
-
-    private String getRandomPhoneNumber() {
-    // Generate a random phone number in format XXX-XXX-XXXX
-    return String.format("%03d-%03d-%04d", new Random().nextInt(1000), new Random().nextInt(1000), new Random().nextInt(10000));
-}
     
 }

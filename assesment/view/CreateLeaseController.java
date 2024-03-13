@@ -67,16 +67,33 @@ public class CreateLeaseController {
                 return; // Exit the method to prevent further processing
             }
             
+            //display an error if name is too short
+            if (!isValidName(txtFirstName.getText()) || !isValidName(txtLastName.getText())) {
+                showAlert("First and last names must be at least 2 characters long and contain only letters.");
+                return;// Exit the method to prevent further processing
+            }
+            
+            //display an error if phone number is too short
+            if (!isValidPhoneNumber(txtPhoneNumber.getText())) {
+                showAlert("the phone number must be 10 digits and contain only numbers.");
+                return;// Exit the method to prevent further processing
+            }
+            
+            //display an error if name is too short
+            if (!isValidStudentNumber(txtStudentNumber.getText())) {
+                showAlert("the Student number must be 8 digits and contain only numbers.");
+                return;// Exit the method to prevent further processing
+            }
+            
             switch (selectedRoom.getRoomAvailability()) {
                 case "Available":
                     // Check if the room is clean
                     if (selectedRoom.getRoomStatus().equals("Clean")) {
                         // Change room availability to Unavailable
                         selectedRoom.setRoomAvailability("Unavailable");
-
+                        firstPageController.updateRoomCounts();
                         // Show success message
                         showSuccessMessage("Rental agreement created successfully.");
-
                         // Proceed with creating the lease
                         firstPageController.updateLeaseInfo(
                                 txtFirstName.getText(),
@@ -107,7 +124,18 @@ public class CreateLeaseController {
             showAlert("No room selected.");
         }
     }
-
+    private boolean isValidName(String name) {
+        return name != null && name.matches("[a-zA-Z]{2,}");
+    }
+    
+    private boolean isValidPhoneNumber(String phoneNum) {
+        return phoneNum != null && phoneNum.matches("[0-9]{10,10}");
+    }
+    
+    private boolean isValidStudentNumber(String studentNum) {
+        return studentNum != null && studentNum.matches("[0-9]{8}");
+    }
+    
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -132,4 +160,6 @@ public class CreateLeaseController {
         // Show the alert and wait for user response
         alert.showAndWait();
     }
+    
+
 }
